@@ -72,8 +72,13 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="IoCContainerTests.cs" />
     <Compile Include="IoCObjectTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Test Objects\ComplexClassConsumer.cs" />
+    <Compile Include="Test Objects\ITest.cs" />
+    <Compile Include="Test Objects\IUnsaved.cs" />
+    <Compile Include="Test Objects\TestObj.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

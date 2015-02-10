@@ -3,15 +3,15 @@ using IoC.Enums;
 
 namespace IoC
 {
-    public class IoCObject<T>
+    public class IoCObject
     {
         public LifestyleType Lifestyle { get; private set; }
         public Type ObjectType { get; private set; }
 
-        public IoCObject(LifestyleType lifestyle = LifestyleType.Transient)
+        public IoCObject(Type type, LifestyleType lifestyle = LifestyleType.Transient)
         {
             Lifestyle = lifestyle;
-            ObjectType = typeof(T);
+            ObjectType = type;
         }
     }
 }

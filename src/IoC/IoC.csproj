@@ -40,6 +40,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums\LifestyleType.cs" />
+    <Compile Include="Exceptions\UnsavedTypeException.cs" />
+    <Compile Include="IoCContainer.cs" />
     <Compile Include="IoCObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
