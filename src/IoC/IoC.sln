@@ -5,6 +5,13 @@ VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoC", "IoC.csproj", "{192A0E45-0EF0-40D4-B4C6-C06C5AFBA00B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoC.Test", "..\IoC.Test\IoC.Test.csproj", "{542F7854-CFA1-40EF-8DAF-481620C6AA91}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{44ECB0D3-8569-463A-B8B3-0B834F741E8B}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +22,10 @@ Global
 		{192A0E45-0EF0-40D4-B4C6-C06C5AFBA00B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{192A0E45-0EF0-40D4-B4C6-C06C5AFBA00B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{192A0E45-0EF0-40D4-B4C6-C06C5AFBA00B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{542F7854-CFA1-40EF-8DAF-481620C6AA91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{542F7854-CFA1-40EF-8DAF-481620C6AA91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{542F7854-CFA1-40EF-8DAF-481620C6AA91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{542F7854-CFA1-40EF-8DAF-481620C6AA91}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
