@@ -1,12 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using IoC.Enums;
 
 namespace IoC
 {
-    public class IoCObject
+    public class IoCObject<T>
     {
+        public LifestyleType Lifestyle { get; private set; }
+        public Type ObjectType { get; private set; }
+
+        public IoCObject(LifestyleType lifestyle = LifestyleType.Transient)
+        {
+            Lifestyle = lifestyle;
+            ObjectType = typeof(T);
+        }
     }
 }
