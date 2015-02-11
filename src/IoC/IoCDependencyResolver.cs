@@ -16,7 +16,7 @@ namespace IoC
 
         public object GetService(Type serviceType)
         {
-            return _container.Resolve(serviceType);
+            return _container.Contains(serviceType) ? _container.Resolve(serviceType) : null;
         }
 
         public IEnumerable<object> GetServices(Type serviceType)

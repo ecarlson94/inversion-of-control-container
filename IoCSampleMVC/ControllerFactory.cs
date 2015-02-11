@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Routing;
 using IoC;
-using IoC.Interfaces;
 
 namespace IoCSampleMVC
 {
@@ -28,8 +26,6 @@ namespace IoCSampleMVC
                         "controllerType");
                 }
 
-                RegisterController(controllerType);
-
                 controller = MyIoCContainer.Container.Resolve(controllerType) as IController;
             }
             catch
@@ -38,15 +34,6 @@ namespace IoCSampleMVC
             }
 
             return controller;
-        }
-
-        private void RegisterController(Type type)
-        {
-            if (!MyIoCContainer.Container.Contains(type))
-            {
-                MyIoCContainer.Container.Register(type, type);
-            }
-            
         }
     }
 

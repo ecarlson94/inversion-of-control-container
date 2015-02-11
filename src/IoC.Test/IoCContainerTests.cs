@@ -54,11 +54,28 @@ namespace IoC.Test
             Assert.True(container.Contains<ITest>());
         }
 
+        [Test]
         public void Register2()
         {
             var container = new IoCContainer();
             container.Register(typeof(ITest), typeof(TestObj));
             Assert.True(container.Contains<ITest>());
+        }
+
+        [Test]
+        public void Register3()
+        {
+            var container = new IoCContainer();
+            container.Register(typeof(TestObj));
+            Assert.True(container.Contains<TestObj>());
+        }
+
+        [Test]
+        public void Register4()
+        {
+            var container = new IoCContainer();
+            container.Register<TestObj>();
+            Assert.True(container.Contains<TestObj>());
         }
 
         [Test]
@@ -147,6 +164,22 @@ namespace IoC.Test
             var container = new IoCContainer();
             container.RegisterSingleton<ITest, TestObj>(new TestObj());
             Assert.True(container.Contains<ITest>());
+        }
+
+        [Test]
+        public void RegisterSingleton3()
+        {
+            var container = new IoCContainer();
+            container.RegisterSingleton<TestObj>();
+            Assert.True(container.Contains<TestObj>());
+        }
+
+        [Test]
+        public void RegisterSingleton4()
+        {
+            var container = new IoCContainer();
+            container.RegisterSingleton(new TestObj());
+            Assert.True(container.Contains<TestObj>());
         }
 
         [Test]

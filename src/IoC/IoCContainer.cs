@@ -18,6 +18,16 @@ namespace IoC
             _container = new Dictionary<Type, IoCObject>();
         }
 
+        public void Register<T>()
+        {
+            Register(typeof(T), typeof(T), LifestyleType.Transient);
+        }
+
+        public void Register(Type type)
+        {
+            Register(type, type, LifestyleType.Transient);
+        }
+
         public void Register<Tfrom, Tto>() where Tto : Tfrom
         {
             Register(typeof(Tfrom), typeof(Tto), LifestyleType.Transient);
@@ -35,9 +45,19 @@ namespace IoC
             }
         }
 
+        public void RegisterSingleton<T>()
+        {
+            Register(typeof(T), typeof(T), LifestyleType.Singleton);
+        }
+
         public void RegisterSingleton<Tfrom, Tto>() where Tto : Tfrom
         {
             Register(typeof(Tfrom), typeof(Tto), LifestyleType.Singleton);
+        }
+
+        public void RegisterSingleton<T>(T resolved)
+        {
+            Register(typeof(T), typeof(T), LifestyleType.Singleton, resolved);
         }
 
         public void RegisterSingleton<Tfrom, Tto>(Tto resolved) where Tto : Tfrom

@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using IoC;
+using IoCSampleMVC.Controllers;
 
 namespace IoCSampleMVC
 {
@@ -16,8 +17,12 @@ namespace IoCSampleMVC
         {
             var container = new IoCContainer();
 
-            //register stuff here
-            
+            //register controllers here -- next step, figure out how to do this automatically
+            container.Register<HomeController>();
+            container.Register<AccountController>();
+
+            //register other stuff here
+            container.Register<IControllerFactory, ControllerFactory>();
 
             //set the ControllerFactory's Container
             MyIoCContainer.Container = container;
