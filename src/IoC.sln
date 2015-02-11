@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoC.Test", "IoC.Test\IoC.Te
 		{192A0E45-0EF0-40D4-B4C6-C06C5AFBA00B} = {192A0E45-0EF0-40D4-B4C6-C06C5AFBA00B}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoCSampleMVC", "..\IoCSampleMVC\IoCSampleMVC.csproj", "{E1A923A3-E15B-4575-94E4-E04762157AFA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoCSampleMVC", "IoCSampleMVC\IoCSampleMVC.csproj", "{E1A923A3-E15B-4575-94E4-E04762157AFA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
