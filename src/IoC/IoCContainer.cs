@@ -46,11 +46,20 @@ namespace IoC
 
         public T Resolve<T>()
         {
-            T obj;
+            T obj = default(T);
 
             if (Contains<T>())
             {
-                obj = (T) Resolve(typeof (T));
+                var resolvedType = _container[typeof(T)];
+                switch (resolvedType.Lifestyle)
+                {
+                    case LifestyleType.Transient:
+                        obj = (T)Resolve(typeof(T));
+                        break;
+                    case LifestyleType.Singleton:
+                        obj = (T) ResolveSingleton(typeof (T));
+                        break;
+                }
             }
             else
             {
@@ -58,6 +67,13 @@ namespace IoC
             }
 
             return obj;
+        }
+
+        private object ResolveSingleton(Type type)
+        {
+            var resolvedType = _container[type];
+
+            return resolvedType.SingletonObject ?? (resolvedType.SingletonObject = Resolve(type));
         }
 
         private object Resolve(Type type)
