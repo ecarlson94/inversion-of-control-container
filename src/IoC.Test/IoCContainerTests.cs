@@ -103,5 +103,13 @@ namespace IoC.Test
                 Assert.Fail();
             }
         }
+
+        [Test]
+        public void RegisterSingleton()
+        {
+            var container = new IoCContainer();
+            container.RegisterSingleton<ITest, TestObj>();
+            Assert.True(container.Contains<ITest>());
+        }
     }
 }

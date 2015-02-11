@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using IoC.Enums;
 using IoC.Exceptions;
 
 namespace IoC
@@ -18,13 +19,23 @@ namespace IoC
 
         public void Register<Tfrom, Tto>() where Tto : Tfrom
         {
-            if (_container.ContainsKey(typeof (Tfrom)))
+            Register<Tfrom, Tto>(LifestyleType.Transient);
+        }
+
+        public void RegisterSingleton<Tfrom, Tto>() where Tto : Tfrom
+        {
+            Register<Tfrom, Tto>(LifestyleType.Singleton);
+        }
+
+        private void Register<Tfrom, Tto>(LifestyleType lifestyle)
+        {
+            if (_container.ContainsKey(typeof(Tfrom)))
             {
-                _container[typeof (Tfrom)] = new IoCObject(typeof (Tto));
+                _container[typeof(Tfrom)] = new IoCObject(typeof(Tto), lifestyle);
             }
             else
             {
-                _container.Add(typeof(Tfrom), new IoCObject(typeof(Tto)));
+                _container.Add(typeof(Tfrom), new IoCObject(typeof(Tto), lifestyle));
             }
         }
 
@@ -43,7 +54,7 @@ namespace IoC
             }
             else
             {
-                throw new UnsavedTypeException("The requested type '" + (typeof(T)).ToString() + "' does not exist in the container.");
+                throw new UnsavedTypeException("The requested type '" + (typeof(T)) + "' does not exist in the container.");
             }
 
             return obj;
