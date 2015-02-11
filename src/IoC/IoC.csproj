@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,10 +43,13 @@
     <Compile Include="Enums\LifestyleType.cs" />
     <Compile Include="Exceptions\NoValidConstructorException.cs" />
     <Compile Include="Exceptions\UnsavedTypeException.cs" />
+    <Compile Include="Interfaces\IContainer.cs" />
     <Compile Include="IoCContainer.cs" />
+    <Compile Include="IoCDependencyResolver.cs" />
     <Compile Include="IoCObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

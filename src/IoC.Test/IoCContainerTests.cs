@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using IoC.Exceptions;
 using IoC.Test.Test_Interfaces;
 using IoC.Test.Test_Objects;
@@ -25,10 +24,40 @@ namespace IoC.Test
         }
 
         [Test]
+        public void Contains2()
+        {
+            var container = new IoCContainer();
+            container.Register<ITest, TestObj>();
+            Assert.True(container.Contains<ITest>());
+        }
+
+        [Test]
+        public void Contains3()
+        {
+            var container = new IoCContainer();
+            Assert.False(container.Contains(typeof(ITest)));
+        }
+
+        [Test]
+        public void Contains4()
+        {
+            var container = new IoCContainer();
+            container.Register<ITest, TestObj>();
+            Assert.True(container.Contains(typeof(ITest)));
+        }
+
+        [Test]
         public void Register()
         {
             var container = new IoCContainer();
             container.Register<ITest, TestObj>();
+            Assert.True(container.Contains<ITest>());
+        }
+
+        public void Register2()
+        {
+            var container = new IoCContainer();
+            container.Register(typeof(ITest), typeof(TestObj));
             Assert.True(container.Contains<ITest>());
         }
 
@@ -113,11 +142,29 @@ namespace IoC.Test
         }
 
         [Test]
+        public void RegisterSingleton2()
+        {
+            var container = new IoCContainer();
+            container.RegisterSingleton<ITest, TestObj>(new TestObj());
+            Assert.True(container.Contains<ITest>());
+        }
+
+        [Test]
         public void Resolve_Singleton()
         {
             var container = new IoCContainer();
             container.RegisterSingleton<ITest, TestObj>();
             var test1 = container.Resolve<ITest>();
+            var test2 = container.Resolve<ITest>();
+            Assert.True(test1 == test2);
+        }
+
+        [Test]
+        public void Resolve_Singleton2()
+        {
+            var container = new IoCContainer();
+            var test1 = new TestObj();
+            container.RegisterSingleton<ITest, TestObj>(test1);
             var test2 = container.Resolve<ITest>();
             Assert.True(test1 == test2);
         }

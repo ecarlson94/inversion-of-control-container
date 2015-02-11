@@ -5,10 +5,11 @@ using System.Linq;
 using System.Reflection;
 using IoC.Enums;
 using IoC.Exceptions;
+using IoC.Interfaces;
 
 namespace IoC
 {
-    public class IoCContainer
+    public class IoCContainer : IContainer
     {
         private Dictionary<Type, IoCObject> _container;
 
@@ -19,23 +20,40 @@ namespace IoC
 
         public void Register<Tfrom, Tto>() where Tto : Tfrom
         {
-            Register<Tfrom, Tto>(LifestyleType.Transient);
+            Register(typeof(Tfrom), typeof(Tto), LifestyleType.Transient);
+        }
+
+        public void Register(Type tFrom, Type tTo)
+        {
+            if (tFrom.IsAssignableFrom(tTo))
+            {
+                Register(tFrom, tTo, LifestyleType.Transient);
+            }
+            else
+            {
+                throw new InvalidCastException("Please ensure that the parameter 'tFrom' is assignable from the parameter 'tTo'");
+            }
         }
 
         public void RegisterSingleton<Tfrom, Tto>() where Tto : Tfrom
         {
-            Register<Tfrom, Tto>(LifestyleType.Singleton);
+            Register(typeof(Tfrom), typeof(Tto), LifestyleType.Singleton);
         }
 
-        private void Register<Tfrom, Tto>(LifestyleType lifestyle)
+        public void RegisterSingleton<Tfrom, Tto>(Tto resolved) where Tto : Tfrom
         {
-            if (_container.ContainsKey(typeof(Tfrom)))
+            Register(typeof(Tfrom), typeof(Tto), LifestyleType.Singleton, resolved);
+        }
+
+        private void Register(Type tFrom, Type tTo, LifestyleType lifestyle, object singletonOjb = null)
+        {
+            if (_container.ContainsKey(tFrom))
             {
-                _container[typeof(Tfrom)] = new IoCObject(typeof(Tto), lifestyle);
+                _container[tFrom] = new IoCObject(tTo, lifestyle){SingletonObject = singletonOjb};
             }
             else
             {
-                _container.Add(typeof(Tfrom), new IoCObject(typeof(Tto), lifestyle));
+                _container.Add(tFrom, new IoCObject(tTo, lifestyle){SingletonObject = singletonOjb});
             }
         }
 
@@ -44,39 +62,49 @@ namespace IoC
             return _container.ContainsKey(typeof (T));
         }
 
+        public bool Contains(Type type)
+        {
+            return _container.ContainsKey(type);
+        }
+
         public T Resolve<T>()
         {
-            T obj = default(T);
-
-            if (Contains<T>())
-            {
-                var resolvedType = _container[typeof(T)];
-                switch (resolvedType.Lifestyle)
-                {
-                    case LifestyleType.Transient:
-                        obj = (T)Resolve(typeof(T));
-                        break;
-                    case LifestyleType.Singleton:
-                        obj = (T) ResolveSingleton(typeof (T));
-                        break;
-                }
-            }
-            else
-            {
-                throw new UnsavedTypeException("The requested type '" + (typeof(T)) + "' does not exist in the container.");
-            }
-
-            return obj;
+            return (T) Resolve(typeof (T));
         }
 
         private object ResolveSingleton(Type type)
         {
             var resolvedType = _container[type];
 
-            return resolvedType.SingletonObject ?? (resolvedType.SingletonObject = Resolve(type));
+            return resolvedType.SingletonObject ?? (resolvedType.SingletonObject = ResolutionHelper(type));
         }
 
-        private object Resolve(Type type)
+        public object Resolve(Type type)
+        {
+            object obj = null;
+
+            if (Contains(type))
+            {
+                var resolvedType = _container[type];
+                switch (resolvedType.Lifestyle)
+                {
+                    case LifestyleType.Transient:
+                        obj = ResolutionHelper(type);
+                        break;
+                    case LifestyleType.Singleton:
+                        obj = ResolveSingleton(type);
+                        break;
+                }
+            }
+            else
+            {
+                throw new UnsavedTypeException("The requested type '" + type.Name + "' does not exist in the container.");
+            }
+
+            return obj;
+        }
+
+        private object ResolutionHelper(Type type)
         {
             object obj = null;
 
@@ -103,7 +131,7 @@ namespace IoC
 
             if (obj == null)
             {
-                throw new NoValidConstructorException("No valid instructor to call on object " + resolvedType);
+                throw new NoValidConstructorException("No valid instructor to call on object " + resolvedType.Name);
             }
 
             return obj;
