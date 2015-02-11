@@ -74,6 +74,11 @@ namespace IoC
                 }
             }
 
+            if (obj == null)
+            {
+                throw new NoValidConstructorException("No valid instructor to call on object " + resolvedType);
+            }
+
             return obj;
         }
 

@@ -86,13 +86,22 @@ namespace IoC.Test
             Assert.NotNull(classConsumer.Saved);
         }
 
-        //should throw an error
-//        [Test]
-//        public void Retrieve_ComplexClassConsumer3()
-//        {
-//            var container = new IoCContainer();
-//
-//            container.Register<ComplexClassConsumer, ComplexClassConsumer>();
-//        }
+        [Test]
+        public void Retrieve_NoValidConstructor()
+        {
+            var container = new IoCContainer();
+            container.Register<ComplexClassConsumer, ComplexClassConsumer>();
+
+            try
+            {
+                container.Resovle<ComplexClassConsumer>();
+                Assert.Fail();
+            }
+            catch (NoValidConstructorException nvce) { }
+            catch (Exception e)
+            {
+                Assert.Fail();
+            }
+        }
     }
 }

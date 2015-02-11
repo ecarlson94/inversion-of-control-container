@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums\LifestyleType.cs" />
+    <Compile Include="Exceptions\NoValidConstructorException.cs" />
     <Compile Include="Exceptions\UnsavedTypeException.cs" />
     <Compile Include="IoCContainer.cs" />
     <Compile Include="IoCObject.cs" />
