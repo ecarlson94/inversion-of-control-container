@@ -44,7 +44,7 @@ namespace IoC
             return _container.ContainsKey(typeof (T));
         }
 
-        public T Resovle<T>()
+        public T Resolve<T>()
         {
             T obj;
 

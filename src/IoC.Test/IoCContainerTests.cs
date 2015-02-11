@@ -39,7 +39,7 @@ namespace IoC.Test
 
             try
             {
-                container.Resovle<IUnsaved>();
+                container.Resolve<IUnsaved>();
                 Assert.Fail();
             }
             catch (UnsavedTypeException ute) { }
@@ -55,7 +55,7 @@ namespace IoC.Test
             var container = new IoCContainer();
 
             container.Register<ITest, TestObj>();
-            var itest = container.Resovle<ITest>();
+            var itest = container.Resolve<ITest>();
             Assert.NotNull(itest);
             Assert.True(itest.GetType() == typeof(TestObj));
             Assert.True(itest.RunTest() == "Test Phrase");
@@ -68,7 +68,7 @@ namespace IoC.Test
             
             container.Register<ITest, TestObj>();
             container.Register<ComplexClassConsumer, ComplexClassConsumer>();
-            var classConsumer = container.Resovle<ComplexClassConsumer>();
+            var classConsumer = container.Resolve<ComplexClassConsumer>();
             Assert.NotNull(classConsumer.Tester);
             Assert.Null(classConsumer.Saved);
         }
@@ -81,7 +81,7 @@ namespace IoC.Test
             container.Register<ITest, TestObj>();
             container.Register<ISaved, Saved>();
             container.Register<ComplexClassConsumer, ComplexClassConsumer>();
-            var classConsumer = container.Resovle<ComplexClassConsumer>();
+            var classConsumer = container.Resolve<ComplexClassConsumer>();
             Assert.NotNull(classConsumer.Tester);
             Assert.NotNull(classConsumer.Saved);
         }
@@ -94,7 +94,7 @@ namespace IoC.Test
 
             try
             {
-                container.Resovle<ComplexClassConsumer>();
+                container.Resolve<ComplexClassConsumer>();
                 Assert.Fail();
             }
             catch (NoValidConstructorException nvce) { }
@@ -110,6 +110,16 @@ namespace IoC.Test
             var container = new IoCContainer();
             container.RegisterSingleton<ITest, TestObj>();
             Assert.True(container.Contains<ITest>());
+        }
+
+        [Test]
+        public void Resolve_Singleton()
+        {
+            var container = new IoCContainer();
+            container.RegisterSingleton<ITest, TestObj>();
+            var test1 = container.Resolve<ITest>();
+            var test2 = container.Resolve<ITest>();
+            Assert.True(test1 == test2);
         }
     }
 }
