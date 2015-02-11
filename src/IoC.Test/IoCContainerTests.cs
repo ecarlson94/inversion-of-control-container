@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using IoC.Exceptions;
+using IoC.Test.Test_Interfaces;
 using IoC.Test.Test_Objects;
 using NUnit.Framework;
 
@@ -8,38 +10,36 @@ namespace IoC.Test
     [TestFixture]
     public class IoCContainerTests
     {
-        private IoCContainer _container;
-
-        public IoCContainerTests()
-        {
-            _container = new IoCContainer();
-        }
-
         [Test]
         public void ContainerCreateTest()
         {
-            Assert.NotNull(_container);
+            var container = new IoCContainer();
+            Assert.NotNull(container);
         }
 
         [Test]
         public void Contains()
         {
-            Assert.False(_container.Contains<ITest>());
+            var container = new IoCContainer();
+            Assert.False(container.Contains<ITest>());
         }
 
         [Test]
         public void Register()
         {
-            _container.Register<ITest, TestObj>();
-            Assert.True(_container.Contains<ITest>());
+            var container = new IoCContainer();
+            container.Register<ITest, TestObj>();
+            Assert.True(container.Contains<ITest>());
         }
 
         [Test]
         public void Retrieve_UnsavedType()
         {
+            var container = new IoCContainer();
+
             try
             {
-                _container.Retrieve<IUnsaved>();
+                container.Resovle<IUnsaved>();
                 Assert.Fail();
             }
             catch (UnsavedTypeException ute) { }
@@ -52,8 +52,10 @@ namespace IoC.Test
         [Test]
         public void Retrieve()
         {
-            _container.Register<ITest, TestObj>();
-            var itest = _container.Retrieve<ITest>();
+            var container = new IoCContainer();
+
+            container.Register<ITest, TestObj>();
+            var itest = container.Resovle<ITest>();
             Assert.NotNull(itest);
             Assert.True(itest.GetType() == typeof(TestObj));
             Assert.True(itest.RunTest() == "Test Phrase");
@@ -62,10 +64,35 @@ namespace IoC.Test
         [Test]
         public void Retrieve_ComplexClassConsumer()
         {
-            _container.Register<ITest, TestObj>();
-            _container.Register<ComplexClassConsumer, ComplexClassConsumer>();
-            var classConsumer = _container.Retrieve<ComplexClassConsumer>();
+            var container = new IoCContainer();
+            
+            container.Register<ITest, TestObj>();
+            container.Register<ComplexClassConsumer, ComplexClassConsumer>();
+            var classConsumer = container.Resovle<ComplexClassConsumer>();
             Assert.NotNull(classConsumer.Tester);
+            Assert.Null(classConsumer.Saved);
         }
+
+        [Test]
+        public void Retrieve_ComplexClassConsumer2()
+        {
+            var container = new IoCContainer();
+
+            container.Register<ITest, TestObj>();
+            container.Register<ISaved, Saved>();
+            container.Register<ComplexClassConsumer, ComplexClassConsumer>();
+            var classConsumer = container.Resovle<ComplexClassConsumer>();
+            Assert.NotNull(classConsumer.Tester);
+            Assert.NotNull(classConsumer.Saved);
+        }
+
+        //should throw an error
+//        [Test]
+//        public void Retrieve_ComplexClassConsumer3()
+//        {
+//            var container = new IoCContainer();
+//
+//            container.Register<ComplexClassConsumer, ComplexClassConsumer>();
+//        }
     }
 }

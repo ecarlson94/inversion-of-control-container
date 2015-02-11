@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IoC.Test.Test_Objects
+namespace IoC.Test.Test_Interfaces
 {
     public interface ITest
     {

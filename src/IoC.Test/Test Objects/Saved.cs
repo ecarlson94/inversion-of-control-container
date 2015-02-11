@@ -2,11 +2,11 @@
 
 namespace IoC.Test.Test_Objects
 {
-    public class TestObj : ITest
+    public class Saved : ISaved
     {
-        public string RunTest()
+        public bool IsSaved()
         {
-            return "Test Phrase";
+            return true;
         }
     }
 }
